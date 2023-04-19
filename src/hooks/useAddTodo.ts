@@ -11,15 +11,9 @@ const useAddTodo = (onAdd: () => void) => {
         .then(res => res.data),
     onMutate: newTodo => {
       //creating a optimistic update
-      const previousTodos =
-        queryClient.getQueriesData<Todo[]>([CACHE_KEY_TODOS]) || []
-      queryClient.setQueriesData<Todo[]>([CACHE_KEY_TODOS], (todos = []) => [
-        newTodo,
-        ...todos
-      ])
-
+      const previousTodos = queryClient.getQueriesData<Todo[]>([CACHE_KEY_TODOS]) || []
+      queryClient.setQueriesData<Todo[]>([CACHE_KEY_TODOS], (todos = []) => [newTodo, ...todos])
       onAdd()
-
       return { previousTodos }
     },
     onSuccess: (savedTodo, newTodo) => {
